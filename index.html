@@ -3,77 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>JYT-inc 財產盤點系統</title>
-
+  <title>JYT-inc Scanner 系統 [TEST]</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
-
-    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-
-    body {
-      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f0f4f8;
-      overscroll-behavior: none;
-    }
-
-    .ios-blur {
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      background: rgba(255,255,255,0.85);
-    }
-
-    .ios-btn { transition: transform 0.1s, opacity 0.1s; }
-    .ios-btn:active { transform: scale(0.96); opacity: 0.75; }
-
-    .scan-line {
-      background: linear-gradient(to bottom, transparent, rgba(59,130,246,0.5), transparent);
-      height: 18%; width: 100%; position: absolute;
-      animation: scanMove 2s infinite linear;
-    }
-    @keyframes scanMove { from { top: -18%; } to { top: 100%; } }
-
-    .scan-corner { position: absolute; width: 28px; height: 28px; }
-    .scan-corner.tl { top: 12%; left: 12%; border-top: 3px solid #fff; border-left: 3px solid #fff; border-radius: 3px 0 0 0; }
-    .scan-corner.tr { top: 12%; right: 12%; border-top: 3px solid #fff; border-right: 3px solid #fff; border-radius: 0 3px 0 0; }
-    .scan-corner.bl { bottom: 12%; left: 12%; border-bottom: 3px solid #fff; border-left: 3px solid #fff; border-radius: 0 0 0 3px; }
-    .scan-corner.br { bottom: 12%; right: 12%; border-bottom: 3px solid #fff; border-right: 3px solid #fff; border-radius: 0 0 3px 0; }
-
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
-      z-index: 100;
-      display: flex; align-items: flex-end;
-    }
-    .modal-sheet {
-      width: 100%;
-      background: #fff;
-      border-radius: 24px 24px 0 0;
-      animation: sheetUp 0.35s cubic-bezier(0.34,1.56,0.64,1);
-    }
-    @keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-    select {
-      -webkit-appearance: none; appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-    }
-
-    /* 強制覆蓋 html5-qrcode 樣式 */
-    #reader { width: 100% !important; border: none !important; background: #000 !important; }
-    #reader video { object-fit: cover !important; }
-    #reader__scan_region { background: transparent !important; }
-    #reader__dashboard { display: none !important; }
-    #reader__status_span { display: none !important; }
-
-    .log-row { animation: fadeSlide 0.25s ease; }
-    @keyframes fadeSlide { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
-  </style>
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
@@ -82,24 +16,26 @@
   <!-- Header -->
   <header class="ios-blur sticky top-0 z-50 px-4 py-3 flex justify-between items-center border-b border-gray-100">
     <div class="flex items-center gap-2">
-      <div class="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center">
+      <!-- <div class="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
           <rect x="3" y="3" width="7" height="7" rx="1.5"/>
           <rect x="14" y="3" width="7" height="7" rx="1.5"/>
           <rect x="3" y="14" width="7" height="7" rx="1.5"/>
           <path d="M14 14h3v3M17 14h3M14 17v3h3M20 17v3M20 14v0"/>
         </svg>
-      </div>
-      <span class="font-black text-base tracking-tight text-gray-900">財產盤點</span>
+      </div> -->
+      <img src="https://www.jyt-inc.com/assets/imgs/JYT-logo.svg" alt="Logo" class="max-h-8">
+      <span class="font-black text-base tracking-tight text-gray-900">Scanner [TEST]</span>
     </div>
     <div class="flex items-center gap-2">
       <span v-if="currentUser" class="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
         {{ currentUser }}
       </span>
       <button @click="showSettings = true" class="ios-btn w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2">
+          <circle cx="5" cy="12" r="2"/>
+          <circle cx="12" cy="12" r="2"/>
+          <circle cx="19" cy="12" r="2"/>
         </svg>
       </button>
     </div>
@@ -117,15 +53,15 @@
   <main class="flex-grow p-5 flex flex-col items-center gap-5">
 
     <!-- QR 掃描視窗 -->
-    <div class="w-full relative overflow-hidden rounded-[2rem] shadow-2xl bg-black aspect-square border-4 border-white">
+    <header class="w-full relative sticky top-16 overflow-hidden rounded-[2rem] shadow-2xl bg-black aspect-video border-4 border-white">
       <div id="reader" class="w-full h-full"></div>
-      <template v-if="isScanning">
+      <!-- <template v-if="isScanning">
         <div class="scan-line"></div>
         <div class="scan-corner tl"></div>
         <div class="scan-corner tr"></div>
         <div class="scan-corner bl"></div>
         <div class="scan-corner br"></div>
-      </template>
+      </template> -->
       <div v-if="!isScanning" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/60 pointer-events-none">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5">
           <rect x="3" y="3" width="7" height="7" rx="1.5"/>
@@ -135,7 +71,7 @@
         </svg>
         <span class="text-white/30 text-sm">相機待機中</span>
       </div>
-    </div>
+    </header>
 
     <!-- 狀態卡片 -->
     <div class="w-full bg-white rounded-3xl p-5 shadow-sm border border-gray-100 transition-all duration-300">
@@ -150,7 +86,7 @@
           {{ { success:'成功', duplicate:'重複', error:'失敗' }[status] || status }}
         </span>
       </div>
-      <h2 :class="['text-xl font-bold mb-1 transition-colors duration-200', statusColorClass]">
+      <h2 :class="['text-lg font-bold mb-1 transition-colors duration-200', statusColorClass]">
         {{ message || '準備就緒' }}
       </h2>
       <p class="text-gray-400 text-sm">
@@ -186,7 +122,7 @@
         </div>
       </div>
       <div v-if="!logs.length" class="py-8 text-center text-gray-300 text-sm">尚無記錄</div>
-      <div v-else class="divide-y divide-gray-50 max-h-52 overflow-y-auto">
+      <div v-else class="divide-y divide-gray-50 min-h-44 max-h-[calc(100vh-740px)] overflow-y-auto">
         <div v-for="(log, i) in reversedLogs" :key="i" class="log-row px-5 py-3 flex items-center gap-3">
           <span :class="['w-2 h-2 rounded-full flex-shrink-0',
             log.status === 'success' ? 'bg-green-400' :
@@ -207,11 +143,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="p-5 pt-0 space-y-3">
-    <button @click="sendTestData" :disabled="loading"
-      class="ios-btn w-full bg-gray-100 text-gray-700 py-3 rounded-2xl font-semibold text-sm border border-gray-200">
-      🧪 發送測試假資料 (TEST)
-    </button>
+  <footer class="px-5 py-4 pt-0 space-y-3 sticky bottom-0 bg-white">
     <button v-if="!isScanning" @click="startScan" :disabled="!currentUser"
       class="ios-btn w-full bg-gray-900 text-white py-4 rounded-2xl font-bold text-base shadow-lg disabled:opacity-40">
       {{ currentUser ? '開啟鏡頭掃描' : '請先選擇盤點人員' }}
@@ -222,15 +154,14 @@
     </div>
   </footer>
 
-  <!-- ══ 設定 Bottom Sheet ══ -->
-  <div v-if="showSettings" class="modal-overlay" @click.self="closeSettings">
-    <div class="modal-sheet">
-      <div class="flex justify-center pt-3 pb-1">
+  <!-- 設定 Bottom Sheet -->
+  <article v-if="showSettings" class="modal-overlay" @click.self="closeSettings">
+    <section class="modal-sheet">
+      <div class="flex justify-center pt-3">
         <div class="w-10 h-1 bg-gray-200 rounded-full"></div>
       </div>
-      <div class="px-5 pb-8 pt-2 overflow-y-auto max-h-screen">
+      <div class="px-5 pb-6 pt-2 overflow-y-auto max-h-screen">
         <h3 class="text-lg font-black text-gray-900 mb-5">系統設定</h3>
-
         <!-- 盤點人員 -->
         <div class="mb-4">
           <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">盤點人員</label>
@@ -244,7 +175,6 @@
             class="mt-2 w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue-400 transition-colors"
             placeholder="輸入姓名 / 工號..." />
         </div>
-
         <!-- Webhook URL -->
         <div class="mb-4">
           <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">n8n Webhook URL</label>
@@ -253,15 +183,6 @@
             placeholder="https://your-n8n.example.com/webhook/..." />
           <p class="text-xs text-gray-400 mt-1.5 px-1">未填寫時僅儲存於本機</p>
         </div>
-
-        <!-- 預設備註 -->
-        <div class="mb-5">
-          <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">預設備註</label>
-          <input v-model="config.defaultNote"
-            class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue-400 transition-colors"
-            placeholder="例：2025 Q2 盤點（可留空）" />
-        </div>
-
         <!-- 人員名單管理 -->
         <div class="mb-5">
           <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">人員名單管理</label>
@@ -280,13 +201,12 @@
             <button @click="addUser" class="ios-btn bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold">新增</button>
           </div>
         </div>
-
         <button @click="saveSettings" class="ios-btn w-full bg-gray-900 text-white py-4 rounded-2xl font-bold text-base">
           儲存設定
         </button>
       </div>
-    </div>
-  </div>
+    </section>
+  </article>
 
 </div>
 
@@ -300,18 +220,15 @@ new Vue({
       savedConfig = JSON.parse(localStorage.getItem('jyt_config') || '{}')
       savedLogs = JSON.parse(localStorage.getItem('jyt_logs') || '[]')
     } catch (e) {}
-
     return {
       config: {
         webhookUrl: savedConfig.webhookUrl || '',
-        defaultNote: savedConfig.defaultNote || '',
         userList: savedConfig.userList || ['管理員', '負責人', '倉管', '採購']
       },
       currentUser: savedConfig.lastUser || '',
       selectedUser: savedConfig.lastUser || '',
       customUser: '',
       newUserInput: '',
-
       showSettings: !savedConfig.lastUser,
       isScanning: false,
       loading: false,
@@ -356,13 +273,15 @@ new Vue({
       }
       this.newUserInput = ''
     },
+    // 移除使用者
     removeUser(i) {
       this.config.userList.splice(i, 1)
     },
+    // 有選人才能關閉
     closeSettings() {
-      // 有選人才能關閉
       if (this.currentUser) this.showSettings = false
     },
+    // 儲存設定並關閉
     saveSettings() {
       const user = this.selectedUser === '__custom__'
         ? this.customUser.trim()
@@ -377,11 +296,9 @@ new Vue({
       } catch (e) {}
       this.showSettings = false
     },
-
     // ── 掃描 ──
     async startScan() {
       if (!this.currentUser) { this.showSettings = true; return }
-
       // ① 檢查是否為 HTTPS / localhost（相機 API 必要條件）
       const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1'
       if (!isSecure) {
@@ -390,7 +307,6 @@ new Vue({
         this.showCameraError('http')
         return
       }
-
       // ② 檢查瀏覽器是否支援 getUserMedia
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         this.status = 'error'
@@ -398,7 +314,6 @@ new Vue({
         this.showCameraError('unsupported')
         return
       }
-
       // ③ 先用原生 API 預先請求權限，取得更精確的錯誤訊息
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -422,7 +337,6 @@ new Vue({
         }
         return
       }
-
       // ④ 啟動 html5-qrcode
       this.message = '正在喚醒相機...'
       this.qrInstance.start(
@@ -439,7 +353,7 @@ new Vue({
         this.showCameraError('unknown', err.toString())
       })
     },
-
+    // ── 相機錯誤處理 ──
     showCameraError(type, detail) {
       const msgs = {
         http: `⚠️ 相機需要 HTTPS 環境\n\n目前網址：${location.href}\n\n解決方法：\n• 部署到 GitHub Pages（自動提供 HTTPS）\n• 或使用 https:// 網址開啟`,
@@ -451,6 +365,7 @@ new Vue({
       }
       alert(msgs[type] || msgs.unknown)
     },
+    // 停止掃描並釋放相機
     stopScan() {
       if (this.isScanning && this.qrInstance) {
         this.qrInstance.stop().catch(() => {}).finally(() => {
@@ -459,25 +374,19 @@ new Vue({
         })
       }
     },
+    // ── 手動輸入處理 ──
     handleManualInput() {
       const val = this.manualId.trim()
       if (!val || this.loading) return
       this.handleResult(val)
       this.manualId = ''
     },
-    sendTestData() {
-      const fakeId = 'TEST-' + String(Math.floor(Math.random() * 9000) + 1000)
-      this.handleResult(fakeId)
-    },
-
     // ── 核心邏輯（對齊原 GAS processInventory 行為）──
     handleResult(assetId) {
       if (this.loading || this.scanCooldown) return
-
       // 2 秒防重複冷卻
       this.scanCooldown = true
       setTimeout(() => { this.scanCooldown = false }, 2000)
-
       // 本地重複檢查（同日同編號）
       const today = new Date().toLocaleDateString('zh-TW')
       const isDuplicate = this.logs.some(l =>
@@ -485,7 +394,6 @@ new Vue({
         l.status === 'success' &&
         l.time.startsWith(today)
       )
-
       if (isDuplicate) {
         this.lastId = assetId
         this.status = 'duplicate'
@@ -494,12 +402,10 @@ new Vue({
         this.resetAfter(2000)
         return
       }
-
       this.loading = true
       this.lastId = assetId
       this.status = ''
       this.message = '正在紀錄...'
-
       const now = new Date()
       const payload = {
         assetId,
@@ -508,10 +414,8 @@ new Vue({
           hour: '2-digit', minute: '2-digit', second: '2-digit',
           hour12: false
         }),
-        inspector: this.currentUser,
-        note: this.config.defaultNote || ''
+        inspector: this.currentUser
       }
-
       // 無 Webhook → 僅本地記錄
       if (!this.config.webhookUrl) {
         this.status = 'success'
@@ -521,7 +425,6 @@ new Vue({
         this.resetAfter(1800)
         return
       }
-
       fetch(this.config.webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -552,7 +455,7 @@ new Vue({
           this.resetAfter(2500)
         })
     },
-
+    // 記錄推送（成功/重複/失敗）
     pushLog(assetId, status) {
       const time = new Date().toLocaleString('zh-TW', { hour12: false })
       this.logs.push({ assetId, status, inspector: this.currentUser, time })
@@ -560,12 +463,14 @@ new Vue({
         localStorage.setItem('jyt_logs', JSON.stringify(this.logs.slice(-300)))
       } catch (e) {}
     },
+    // 清除所有記錄
     clearLogs() {
       if (confirm('確定清除所有記錄？')) {
         this.logs = []
         try { localStorage.removeItem('jyt_logs') } catch (e) {}
       }
     },
+    // 掃描結果狀態重置
     resetAfter(ms) {
       setTimeout(() => {
         this.status = ''
