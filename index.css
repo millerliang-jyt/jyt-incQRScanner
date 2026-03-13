@@ -25,61 +25,6 @@ body {
   opacity: 0.75;
 }
 
-/* .scan-line {
-  background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.5), transparent);
-  height: 18%;
-  width: 100%;
-  position: absolute;
-  animation: scanMove 2s infinite linear;
-} */
-
-/* @keyframes scanMove {
-  from {
-    top: -18%;
-  }
-  to {
-    top: 100%;
-  }
-} */
-
-/* .scan-corner {
-  position: absolute;
-  width: 28px;
-  height: 28px;
-}
-
-.scan-corner.tl {
-  top: 12%;
-  left: 12%;
-  border-top: 3px solid #fff;
-  border-left: 3px solid #fff;
-  border-radius: 3px 0 0 0;
-}
-
-.scan-corner.tr {
-  top: 12%;
-  right: 12%;
-  border-top: 3px solid #fff;
-  border-right: 3px solid #fff;
-  border-radius: 0 3px 0 0;
-}
-
-.scan-corner.bl {
-  bottom: 12%;
-  left: 12%;
-  border-bottom: 3px solid #fff;
-  border-left: 3px solid #fff;
-  border-radius: 0 0 0 3px;
-}
-
-.scan-corner.br {
-  bottom: 12%;
-  right: 12%;
-  border-bottom: 3px solid #fff;
-  border-right: 3px solid #fff;
-  border-radius: 0 0 3px 0;
-} */
-
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -117,7 +62,6 @@ select {
 #reader {
   width: 100% !important;
   border: none !important;
-  background: #000 !important;
 }
 
 #reader video {
