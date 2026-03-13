@@ -45,9 +45,9 @@
   <main class="flex-grow p-5 flex flex-col items-center gap-5">
 
     <!-- QR 掃描視窗 -->
-    <header class="flex items-center justify-center sticky top-16 overflow-hidden rounded-[2rem] w-full shadow-xl bg-black border-4 border-white">
-      <div v-if="isScanning" id="reader" class="aspect-[3/2] min-h-64"></div>
-      <div v-else class="flex flex-col items-center justify-center min-h-52 bg-black/60 pointer-events-none">
+    <header class="flex items-center justify-center sticky top-16 overflow-hidden rounded-[2rem] aspect-[3/2] w-full shadow-xl bg-black border-4 border-white">
+      <div id="reader" :class="isScanning ? 'w-full h-full border-none' : 'absolute h-0 w-0'"></div>
+      <div v-if="!isScanning" class="flex flex-col items-center justify-center bg-black/60 pointer-events-none">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5">
           <rect x="3" y="3" width="7" height="7" rx="1.5"/>
           <rect x="14" y="3" width="7" height="7" rx="1.5"/>

@@ -59,11 +59,6 @@ select {
   background-position: right 12px center;
 }
 
-#reader {
-  width: 100% !important;
-  border: none !important;
-}
-
 #reader video {
   object-fit: cover !important;
 }
