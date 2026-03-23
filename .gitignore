@@ -23,4 +23,3 @@ pnpm-debug.log*
 *.sw?
 
 /_deploy
-/history_log.html

@@ -45,10 +45,10 @@ new Vue({
 		}
 	},
 	mounted() {
-		this.qrInstance = new Html5Qrcode('reader', {
+		this.qrInstance = new Html5Qrcode('qrReader', {
 			qrbox: {
-				width: 512,
-				height: 512
+				// width: 512,
+				height: 768
 			}
 		})
 	},
