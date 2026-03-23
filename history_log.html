@@ -10,10 +10,10 @@
   <link rel="stylesheet" href="assets/index.css">
 </head>
 <body>
-<div id="history-app" class="min-h-screen flex flex-col max-w-3xl mx-auto bg-white">
+<div id="history-app" class="min-h-screen flex flex-col max-w-xl mx-auto bg-white">
   <header class="ios-blur sticky top-0 z-50 px-4 py-4 flex items-center justify-between border-b border-gray-100">
     <h1 class="font-semibold text-lg flex items-center justify-between gap-x-2">
-      本地暫存資料
+      🖥️ 本地暫存資料
       <span class="text-xs text-gray-400 uppercase font-light">History</span>
     </h1>
     <div class="flex items-center gap-2">
@@ -23,50 +23,30 @@
   </header>
 
   <main class="flex-1 p-4 md:p-6 pb-28 space-y-4">
-    <section class="bg-gray-50 border border-gray-100 rounded-3xl p-4">
-      <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <div class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Webhook 狀態</div>
-        <div class="text-sm" :class="status === 'success' ? 'text-green-600' : status === 'error' ? 'text-red-500' : 'text-gray-500'">
-          <span v-if="loading">loading...</span>
-          <span v-else>{{ message || '等待操作' }}</span>
-        </div>
-      </div>
-    </section>
+    <dl class="flex items-center justify-between gap-2 bg-gray-50 border border-gray-100 rounded-3xl p-4">
+      <dt class="text-sm text-gray-400 uppercase tracking-widest">Webhook 狀態</dt>
+      <dd class="text-sm" :class="status === 'success' ? 'text-green-600' : status === 'error' ? 'text-red-500' : 'text-gray-500'">
+        <span v-if="loading">loading...</span>
+        <span v-else>{{ message || '等待操作' }}</span>
+      </dd>
+    </dl>
 
     <section class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="min-w-full text-sm">
-          <thead class="bg-gray-50 text-gray-500">
-            <tr>
-              <th class="px-4 py-3 text-left font-semibold">編號 ID</th>
-              <th class="px-4 py-3 text-center font-semibold w-24">狀態</th>
-              <th class="px-4 py-3 text-left font-semibold">盤點人</th>
-              <th class="px-4 py-3 text-left font-semibold">日期 / 時間</th>
-              <th class="px-4 py-3 text-center font-semibold w-24">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="!tableRows.length">
-              <td colspan="5" class="px-4 py-10 text-center text-gray-300">目前沒有資料...</td>
-            </tr>
-            <tr v-for="row in tableRows" :key="row.index + '-' + row.time" class="border-t border-gray-100 align-top">
-              <td class="px-4 py-3 font-mono text-gray-800"><input type="text" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-mono outline-none focus:border-blue-400 transition-colors" :value="row.assetId || '-'"/></td>
-              <td class="px-4 py-3 text-center">
-                <span :class="statusClass_H(row.status)">
-                  {{ row.status || '-' }}
-                </span>
-              </td>
-              <td class="px-4 py-3 text-gray-600">{{ row.inspector || '-' }}</td>
-              <td class="px-4 py-3 text-gray-500 whitespace-nowrap">{{ row.time || '-' }}</td>
-              <td class="px-4 py-3 text-center">
-                <button @click="removeLog_H(row.index)" class="ios-btn text-red-500 bg-red-50 border border-red-100 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-red-100">
-                  移除
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <ol class="list-none m-0 p-0 overflow-x-auto">
+        <li v-for="row in tableRows" :key="row.index + '-' + row.time" class="border-b border-gray-100 p-4 space-y-2">
+          <header class="flex items-center justify-between space-x-2 font-mono text-gray-800">
+            <input type="text" class="flex-grow w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm font-mono outline-none focus:border-blue-400 transition-colors" :value="row.assetId || '-'"/>
+            <button @click="removeLog_H(row.index)" class="ios-btn whitespace-nowrap text-red-500 bg-red-50 border border-red-100 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-red-100">
+              移除
+            </button>
+          </header>
+          <footer class="flex items-center space-x-5">
+            <div class="text-gray-600">👨‍💼 {{ row.inspector || '-' }}</div>
+            <small class="text-gray-500 whitespace-nowrap">📅 {{ row.time || '-' }}</small>
+            <span :class="statusClass_H(row.status)">{{ row.status || '-' }}</span>
+          </footer>
+        </li>
+      </ol>
     </section>
   </main>
 
@@ -114,7 +94,7 @@ new Vue({
     },
     // 根據狀態回傳對應的 CSS 類別
     statusClass_H(status) {
-      const base = 'inline-flex px-2.5 py-1 rounded-full text-xs font-semibold'
+      const base = 'inline-flex px-2 py-1 rounded-full text-xs leading-3'
       if (status === 'success') return base + ' bg-green-50 border border-green-400 text-green-600'
       if (status === 'duplicate') return base + ' bg-orange-50 border border-orange-300 text-orange-500'
       return base + ' bg-red-50 border border-red-300 text-red-500'

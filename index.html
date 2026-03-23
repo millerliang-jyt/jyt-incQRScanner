@@ -18,7 +18,7 @@
   <header class="ios-blur sticky top-0 z-50 px-4 py-3 flex justify-between items-center border-b border-gray-100">
     <div class="flex items-center gap-2">
       <img src="https://www.jyt-inc.com/assets/imgs/JYT-logo.svg" alt="Logo" class="max-h-8">
-      <span class="font-black text-base tracking-tight text-gray-900">Scanner</span>
+      <span class="font-black text-base tracking-tight font-light text-gray-900">Scanner</span>
     </div>
     <div class="flex items-center gap-2">
       <span v-if="currentUser" class="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
@@ -72,7 +72,7 @@
           {{ { success:'成功', duplicate:'重複', error:'失敗' }[status] || status }}
         </span>
       </div>
-      <h2 :class="['text-lg font-semibold mb-1 transition-colors duration-200', statusColorClass]">
+      <h2 :class="['text-lg font-normal mb-1 transition-colors duration-200', statusColorClass]">
         {{ message || '準備就緒' }}
       </h2>
       <p class="text-gray-400 text-sm">
@@ -102,33 +102,33 @@
     </details>
 
     <!-- 記錄列表 -->
-    <div class="w-full bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100">
-      <div class="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
-        <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">本次記錄</span>
+    <article class="w-full bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100">
+      <header class="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
+        <span class="text-xs font-normal text-gray-400 uppercase tracking-widest">本次記錄</span>
         <div class="flex items-center gap-3">
-          <a href="history_log.html" class="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-1 rounded-full">歷史記錄</a>
+          <a href="history_log.html" class="text-xs font-normal text-gray-500 bg-gray-100 px-3 py-1 rounded-full hover:bg-gray-200">檢視記錄</a>
           <span class="text-xs font-mono text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">{{ logs.length }} 筆</span>
-          <button v-if="logs.length" @click="clearLogs" class="text-xs text-gray-400">清除</button>
+          <button v-if="logs.length" @click="clearLogs" class="text-xs text-gray-400 hover:text-red-500">清除</button>
         </div>
-      </div>
+      </header>
       <div v-if="!logs.length" class="py-8 text-center text-gray-300 text-sm">尚無記錄</div>
-      <div v-else class="divide-y divide-gray-50 min-h-44 max-h-[calc(100vh-645px)] overflow-y-auto">
-        <div v-for="(log, i) in reversedLogs" :key="i" class="log-row px-5 py-3 flex items-center gap-3">
+      <section v-else class="divide-y divide-gray-50 min-h-44 max-h-[calc(100vh-645px)] overflow-y-auto">
+        <dl v-for="(log, i) in reversedLogs" :key="i" class="log-row px-5 py-3 flex items-center gap-3">
           <span :class="['w-2 h-2 rounded-full flex-shrink-0',
             log.status === 'success' ? 'bg-green-400' :
             log.status === 'duplicate' ? 'bg-orange-400' : 'bg-red-400']"></span>
-          <div class="flex-1 min-w-0">
-            <div class="text-sm font-mono font-semibold text-gray-800 truncate">{{ log.assetId }}</div>
-            <div class="text-xs text-gray-400">{{ log.inspector }} · {{ log.time }}</div>
-          </div>
-          <span :class="['text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0',
+          <dd class="flex-1 min-w-0">
+            <div class="text-base truncate font-mono text-gray-800 truncate">{{ log.assetId }}</div>
+            <div class="text-xs text-gray-400">👨‍💼 {{ log.inspector }} · 📅 {{ log.time }}</div>
+          </dd>
+          <span :class="['text-xs px-2 py-0.5 rounded-full font-light flex-shrink-0',
             log.status === 'success' ? 'bg-green-50 text-green-600' :
             log.status === 'duplicate' ? 'bg-orange-50 text-orange-500' : 'bg-red-50 text-red-500']">
             {{ { success:'✓ 成功', duplicate:'重複', error:'失敗' }[log.status] || log.status }}
           </span>
-        </div>
-      </div>
-    </div>
+        </dl>
+      </section>
+    </article>
 
   </main>
 
