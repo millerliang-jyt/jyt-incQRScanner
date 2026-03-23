@@ -1,4 +1,4 @@
-# jyt-incQRScanner
+# jyt-inc QR Code Scanner
 
 ## 專案簡介
 

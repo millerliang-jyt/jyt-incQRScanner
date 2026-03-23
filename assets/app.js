@@ -46,7 +46,12 @@ new Vue({
 		}
 	},
 	mounted() {
-		this.qrInstance = new Html5Qrcode('reader')
+		this.qrInstance = new Html5Qrcode('reader', {
+			qrbox: {
+				width: 256,
+				height: 256
+			}
+		})
 	},
 	beforeDestroy() {
 		this.stopScan()
