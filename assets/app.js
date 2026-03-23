@@ -9,7 +9,6 @@ new Vue({
 		} catch (e) {}
 		return {
 			config: {
-				webhookUrl: savedConfig.webhookUrl || '',
 				userList: savedConfig.userList || ['管理員', '負責人', '倉管', '採購']
 			},
 			currentUser: savedConfig.lastUser || '', // 當前使用者
@@ -48,8 +47,8 @@ new Vue({
 	mounted() {
 		this.qrInstance = new Html5Qrcode('reader', {
 			qrbox: {
-				width: 256,
-				height: 256
+				width: 512,
+				height: 512
 			}
 		})
 	},
@@ -82,7 +81,7 @@ new Vue({
 			this.currentUser = user
 			try {
 				localStorage.setItem('jyt_config', JSON.stringify({
-					...this.config,
+					userList: this.config.userList,
 					lastUser: user
 				}))
 			} catch (e) {}
@@ -184,7 +183,7 @@ new Vue({
 			const isDuplicate = this.logs.some(l =>
 				l.assetId === assetId &&
 				l.status === 'success' &&
-				l.time.startsWith(today)
+				String(l.time || '').startsWith(today)
 			)
 			if (isDuplicate) {
 				this.lastId = assetId
@@ -196,57 +195,12 @@ new Vue({
 			}
 			this.loading = true
 			this.lastId = assetId
-			this.status = ''
-			this.message = '正在紀錄...'
-			const now = new Date()
-			const payload = {
-				assetId,
-				datetime: now.toLocaleString('zh-TW', {
-					year: 'numeric', month: '2-digit', day: '2-digit',
-					hour: '2-digit', minute: '2-digit', second: '2-digit',
-					hour12: false
-				}),
-				inspector: this.currentUser
-			}
-			// 無 Webhook → 僅本地記錄
-			if (!this.config.webhookUrl) {
-				this.status = 'success'
-				this.message = '已記錄（本地模式）'
-				this.pushLog(assetId, 'success')
-				this.loading = false
-				this.resetAfter(1800)
-				return
-			}
-			fetch(this.config.webhookUrl, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(payload)
-			}).then(res => {
-					if (!res.ok) throw new Error('HTTP ' + res.status)
-					return res.json().catch(() => ({ status: 'success' }))
-				})
-				.then(data => {
-					// n8n 可回傳 { status: "success"|"duplicate"|"error", message: "..." }
-					const st = data.status || 'success'
-					this.status = st
-					this.message = data.message || {
-						success: '盤點成功 ✓',
-						duplicate: '今日已盤點過',
-						error: '伺服器異常'
-					}[st] || '完成'
-					this.pushLog(assetId, st)
-					this.loading = false
-					this.resetAfter(2000)
-				})
-				.catch(() => {
-					this.status = 'error'
-					this.message = '傳送失敗 (已本地備份)！'
-					this.pushLog(assetId, 'error')
-					this.loading = false
-					this.resetAfter(2500)
-				})
+			this.status = 'success'
+			this.message = '已記錄'
+			this.pushLog(assetId, 'success')
+			this.loading = false
+			this.resetAfter(1800)
 		},
-		// 記錄推送（成功/重複/失敗）
 		pushLog(assetId, status) {
 			const time = new Date().toLocaleString('zh-TW', { hour12: false })
 			this.logs.push({ assetId, status, inspector: this.currentUser, time })

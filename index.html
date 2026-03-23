@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>JYT-inc Scanner APP</title>
-  <link rel="icon" href="assets/favicon.ico">
+  <link rel="icon" href="assets/favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
@@ -84,19 +84,19 @@
     <details class="w-full">
       <summary class="cursor-pointer select-none text-sm text-gray-400 uppercase tracking-widest">點此手動輸入</summary>
       <div class="w-full bg-white rounded-3xl p-4 shadow-sm border border-gray-100 mt-2">
-        <div class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">手動輸入編號</div>
+        <div class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">輸入項目</div>
         <div class="flex gap-2">
           <input
             v-model="manualId"
             @keyup.enter="handleManualInput"
             class="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-mono outline-none focus:border-blue-400 transition-colors"
-            placeholder="輸入財產編號..."
+            placeholder="輸入資料..."
           />
           <button
             @click="handleManualInput"
             :disabled="!manualId.trim() || loading"
             class="ios-btn bg-blue-500 text-white px-4 py-2.5 rounded-xl text-sm font-bold disabled:opacity-40"
-          >送出</button>
+          >建立</button>
         </div>
       </div>
     </details>
@@ -106,6 +106,7 @@
       <div class="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">本次記錄</span>
         <div class="flex items-center gap-3">
+          <a href="history_log.html" class="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-1 rounded-full">歷史記錄</a>
           <span class="text-xs font-mono text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">{{ logs.length }} 筆</span>
           <button v-if="logs.length" @click="clearLogs" class="text-xs text-gray-400">清除</button>
         </div>
@@ -164,15 +165,6 @@
             class="mt-2 w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue-400 transition-colors"
             placeholder="輸入姓名 / 工號..." />
         </div>
-        <!-- Webhook URL -->
-        <!-- <div class="mb-4">
-          <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">n8n Webhook URL</label>
-          <input v-model="config.webhookUrl"
-            class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-xs font-mono outline-none focus:border-blue-400 transition-colors"
-            placeholder="https://your-n8n.example.com/webhook/..." />
-          <p class="text-xs text-gray-400 mt-1.5 px-1">未填寫時僅儲存於本機</p>
-        </div> -->
-        <!-- 人員名單管理 -->
         <div class="mb-5">
           <label class="text-xs font-bold text-gray-500 uppercase tracking-widest block mb-2">人員名單管理</label>
           <div class="flex flex-wrap gap-2 mb-2 min-h-8">
