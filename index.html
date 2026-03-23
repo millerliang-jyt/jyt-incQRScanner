@@ -46,7 +46,7 @@
   <main class="flex-grow p-5 flex flex-col items-center gap-5">
 
     <!-- QR 掃描視窗 -->
-    <header class="w-full relative sticky top-16 overflow-hidden rounded-[2rem] shadow-2xl bg-black aspect-square border-4 border-white">
+    <header class="w-full relative sticky top-16 overflow-hidden rounded-[2rem] shadow-2xl bg-black aspect-square_ min-h-56 border-4 border-white">
       <div id="qrReader" class="w-full h-full border-none"></div>
       <div v-if="!isScanning" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/60 pointer-events-none">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5">
@@ -124,7 +124,7 @@
           <span :class="['text-xs px-2 py-0.5 rounded-full font-light flex-shrink-0',
             log.status === 'success' ? 'bg-green-50 text-green-600' :
             log.status === 'duplicate' ? 'bg-orange-50 text-orange-500' : 'bg-red-50 text-red-500']">
-            {{ { success:'✓ 成功', duplicate:'重複', error:'失敗' }[log.status] || log.status }}
+            {{ { success:'✓ 成功', duplicate:'✘ 重複', error:'失敗' }[log.status] || log.status }}
           </span>
         </dl>
       </section>
