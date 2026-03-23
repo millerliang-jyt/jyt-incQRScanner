@@ -46,7 +46,7 @@
   <main class="flex-grow p-5 flex flex-col items-center gap-5">
 
     <!-- QR 掃描視窗 -->
-    <header class="w-full relative sticky top-16 overflow-hidden rounded-[2rem] shadow-2xl bg-black aspect-square_ min-h-56 border-4 border-white">
+    <header class="w-full relative sticky top-16 overflow-hidden rounded-[2rem] shadow-2xl bg-black aspect-square_ min-h-48 border-4 border-white">
       <div id="qrReader" class="w-full h-full border-none"></div>
       <div v-if="!isScanning" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/60 pointer-events-none">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5">
@@ -111,7 +111,7 @@
           <button v-if="logs.length" @click="clearLogs" class="text-xs text-gray-400 hover:text-red-500">清除</button>
         </div>
       </header>
-      <div v-if="!logs.length" class="py-8 text-center text-gray-300 text-sm">尚無記錄</div>
+      <div v-if="!logs.length" class="py-8 text-center text-gray-300 text-sm">無記錄</div>
       <section v-else class="divide-y divide-gray-50 min-h-44 max-h-[calc(100vh-645px)] overflow-y-auto">
         <dl v-for="(log, i) in reversedLogs" :key="i" class="log-row px-5 py-3 flex items-center gap-3">
           <span :class="['w-2 h-2 rounded-full flex-shrink-0',

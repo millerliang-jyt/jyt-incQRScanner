@@ -33,6 +33,7 @@
 
     <section class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
       <ol class="list-none m-0 p-0 overflow-x-auto">
+        <li v-if="!logs.length" class="py-6 text-center text-gray-300 text-sm">無記錄</li>
         <li v-for="row in tableRows" :key="row.index + '-' + row.time" class="border-b border-gray-100 p-4 space-y-2">
           <header class="flex items-center justify-between space-x-2 font-mono text-gray-800">
             <input type="text" class="flex-grow w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm font-mono outline-none focus:border-blue-400 transition-colors" :value="row.assetId || '-'"/>
