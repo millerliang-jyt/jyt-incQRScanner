@@ -40,10 +40,10 @@
               移除
             </button>
           </header>
-          <footer class="flex items-center space-x-5">
-            <div class="text-gray-600">👨‍💼 {{ row.inspector || '-' }}</div>
+          <footer class="flex flex-wrap items-center space-x-4">
+            <div class="text-gray-600 text-sm truncate">👨‍💼 {{ row.inspector || '-' }}</div>
             <small class="text-gray-500 whitespace-nowrap">📅 {{ row.time || '-' }}</small>
-            <span :class="statusClass_H(row.status)">{{ row.status || '-' }}</span>
+            <span :class="statusClass_H(row.status)">{{ { success:'✓ 成功', duplicate:'✘ 重複', error: '失敗' }[row.status] || '-' }}</span>
           </footer>
         </li>
       </ol>
